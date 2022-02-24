@@ -3,7 +3,7 @@
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(LED_BUILTIN,OUTPUT);
+  pinMode(LED_BUILTIN,OUTPUT); // pin 13 initialized at 1 to be used as ouput
 }
 
 void loop() {
