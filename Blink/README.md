@@ -80,3 +80,22 @@ On définit la constante
 ```C++
 #define LED_MASK (1<<5)
 ```
+
+On peut simplifier la boucle en écrivant une fonction led_toggle() qui modifiera la valeur du bit 5 du port B:
+
+```C++
+void led_toggle(){
+  PORTB ^= LED_MASK; //PORTB = PORTB ^ LED_MASK: 
+                     //   00000000 XOR 00100000 -> 00100000
+                     //   00100000 XOR 00100000 -> 00000000
+}
+```
+
+Cela revient donc à changer la valeur du bit 5 du pin du port B
+
+```C++
+void led_toggle(){
+  PINB = LED_MASK; // change la valeur du PORTB à la position de LED_MASK
+}
+```
+
