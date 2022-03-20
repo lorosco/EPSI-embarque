@@ -53,3 +53,30 @@ void led_setup(){
 ```
 
 On met le 5ème bit du registre de donnée B à 1 en effectuant un décalage de 5 à gauche sur 1 (00000001 -> 00100000) sur le registre DDRB.
+
+### Implémentation de la boucle
+
+Maintenant que nous avons paramétré le pin 13 (5ème bit du port B) comme sortie (à 1), nous allons remplacer les fonctions de la boucle d'exécution en déclanchant le bit correspondant via deux fonction led_on() et led_off() qui remplaceront les appels à digitalWrite.
+
+La fonction led_on() aura pour but d'allumer la LED. Pour se faire, on se réfère à la documentation qui nous précise que le pin correspondant (13) est accessible au 5ème bit du port B qu'on va donc placer à 1 pour HIGH.
+
+```C++
+void led_on(){
+  PORTB |= (1<<5);
+}
+```
+
+La fonction led_off() devra éteindre la LED.
+
+```C++
+void led_off(){
+  PORTB &= ~(1<<5); //remise à 0 du bit 5
+                    // 00100000 & ~(00100000) -> 00100000 & 11011111 
+                    //                        -> 00000000
+}
+```
+
+On définit la constante
+```C++
+#define LED_MASK (1<<5)
+```

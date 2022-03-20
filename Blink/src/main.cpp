@@ -1,7 +1,16 @@
 #include <Arduino.h>
+#define LED_MASK (1<<5)
 
 void led_setup(){
-  DDRB |= (1<<5); //setting bit 5 at 1 in DDRB register (port B)
+  DDRB |= LED_MASK; //setting bit 5 at 1 in DDRB register (port B)
+}
+
+void led_on(){
+  PORTB |= LED_MASK; //setting bit 5 at 1 in PORTB register (port B)
+}
+
+void led_off(){
+  PORTB &=~LED_MASK; //setting bit 5 at 0
 }
 
 void setup() {
@@ -12,8 +21,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  digitalWrite(LED_BUILTIN,HIGH); // LED on
+  led_on();//digitalWrite(LED_BUILTIN,HIGH); // LED on
   delay(1000); // during 1000ms
-  digitalWrite(LED_BUILTIN,LOW); // LED off
+  led_off();//digitalWrite(LED_BUILTIN,LOW); // LED off
   delay(1000); // during 1000ms
 }
