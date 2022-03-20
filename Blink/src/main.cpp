@@ -1,9 +1,13 @@
 #include <Arduino.h>
 
+void led_setup(){
+  DDRB |= (1<<5); //setting bit 5 at 1 in DDRB register (port B)
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(LED_BUILTIN,OUTPUT); // pin 13 initialized at 1 to be used as ouput
+  led_setup();//pinMode(LED_BUILTIN,OUTPUT); // pin 13 initialized at 1 to be used as ouput
 }
 
 void loop() {

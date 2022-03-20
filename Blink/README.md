@@ -7,9 +7,9 @@ Ce fichier contient mon compte rendu du TP Blink consistant à découvrir le lan
 ### Initialisation
 
 Dans un premier temps, on utilise la fonction
-
-
+```C++
     void pinMode(uint8_t pin, uint8_t mode)
+```
 
 dans la fonction setup() pour initialiser les paramètres du système: on utilise les variable LED_BUILTIN et OUTPUT afin de préciser que l'on travaillera sur le PIN 13 qui sera initialisé à 1.
 En effet, d'après la documentation, la constante LED_BUILTIN fait référence au PIN 13 associé à la LED à faire clignoter. La constante OUTPUT fait référence à la valeur 1, valeur associé aux bits des PINs utilisés comme ouptut.
@@ -27,4 +27,29 @@ Une fois le système initialisé, on complète la fonction loop() pour définir 
 * on réutilise ensuite la fonction delay pour maintenir la LED éteinte à la fin de la boucle
 
 
-##
+## Appropriation des fonctions
+
+Dans un second temps, nous allons essayer d'utiliser un maximum de fonctions personnelles pour remplacer les fonctions définies par Arduino.
+
+### Initialisation
+
+Nous allons définir une fonction
+```C++
+void led_setup()
+```
+
+qui permettra de remplacer la fonction
+```C++
+void pinMode(uint8_t pin, uint8_t mode)
+```
+
+Pour remplacer la fonction pinMode() tel que nous l'utilisons, nous devons interagir avec le pin 13 de la carte. D'après le pinout de la carte Arduino Uno, celle-ci appartient au port B et d'après la documentation elle est identifiée par le 5ème bit de ce port.
+La fonction pinMode se charge d'activer le bit renseigné dans l'état demandé. Pour utiliser le pin 13 comme sortie, on va donc chercher à placer le 5ème bit du port B à 1.
+
+```C++
+void led_setup(){
+  DDRB |= (1<<5); 
+}
+```
+
+On met le 5ème bit du registre de donnée B à 1 en effectuant un décalage de 5 à gauche sur 1 (00000001 -> 00100000) sur le registre DDRB.
