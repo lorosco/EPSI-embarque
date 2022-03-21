@@ -99,3 +99,27 @@ void led_toggle(){
 }
 ```
 
+### Implémentation du timer
+
+Pour implémenter un timer nous devons intéragir avec l'horloge de la carte. On utilise l'horloge en mode compteur en plaçant les bits 10, 11 et 13 à 0 et le bit 12 à 1 dans le registre WGM. Les premiers sont accessibles depuis le registre TCCR1A, les derniers depuis TCCR1B.
+
+Ce compteur utilisera la capacité macimale offerte par le prescaler, on utilise donc les bit CS12 et CS10 à 1 et le bit CS11 à 0.
+```C++
+void timer_setup(){
+  TCCR1A = 0;// WGM11 et WGM10 à 0
+  TCCR1B = (1<<0) | (1<<2) | (1<<3);// WGM13 à 0 WGM12 à 1, CS10 à 1, CS11 à 0, CS12 à 1
+}
+```
+
+On définit la variable maximale atteignable par notre compteur comme le nombre d'oscillations effectuées durant 1 seconde, à savoir 15625.
+On initialise également l'interruption du timer en utilisant le registre TIMSK.
+
+```C++
+
+void timer_setup(){
+  TCCR1A = 0;// WGM11 et WGM10 à 0
+  TCCR1B = (1<<0) | (1<<2) | (1<<3);// WGM13 à 0 WGM12 à 1, CS10 à 1, CS11 à 0, CS12 à 1
+  OCR1A = 15625;//valeur maximale du compteur
+  TIMSK1 = (1<<1);
+}
+```
